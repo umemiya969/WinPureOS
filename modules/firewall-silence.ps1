@@ -15,3 +15,23 @@ function Apply-NetworkPolicy {
         }
     }
 }
+
+function Restore-NetworkPolicy {
+
+    Write-Host "[+] Removing telemetry host blocks"
+
+    $hostsPath = "$env:SystemRoot\System32\drivers\etc\hosts"
+
+    $domains = @(
+        "vortex.data.microsoft.com",
+        "settings-win.data.microsoft.com"
+    )
+
+    $content = Get-Content $hostsPath
+    $filtered = $content | Where-Object {
+        $line = $_
+        -not ($domains | Where-Object { $line -match $_ })
+    }
+
+    Set-Content $hostsPath $filtered
+}

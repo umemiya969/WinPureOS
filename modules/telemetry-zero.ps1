@@ -14,3 +14,16 @@ function Apply-TelemetryPolicy {
         }
     }
 }
+
+function Restore-TelemetryPolicy {
+
+    Write-Host "[+] Restoring telemetry settings"
+
+    Remove-ItemProperty `
+        -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" `
+        -Name "AllowTelemetry" -ErrorAction SilentlyContinue
+
+    foreach ($svc in @("DiagTrack","dmwappushservice")) {
+        Set-Service $svc -StartupType Manual -ErrorAction SilentlyContinue
+    }
+}

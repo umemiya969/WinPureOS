@@ -15,3 +15,12 @@ function Apply-ServicePolicy {
         }
     }
 }
+
+function Restore-ServicePolicy {
+
+    Write-Host "[+] Restoring services startup types"
+
+    foreach ($svc in @("WerSvc","PcaSvc")) {
+        Set-Service $svc -StartupType Manual -ErrorAction SilentlyContinue
+    }
+}

@@ -13,3 +13,10 @@ function Apply-AppxPolicy {
         Get-AppxPackage $app -AllUsers | Remove-AppxPackage -ErrorAction SilentlyContinue
     }
 }
+
+function Restore-AppxPolicy {
+
+    Write-Host "[!] Appx restore skipped (non-reversible)"
+
+    Write-Host "    Use Microsoft Store or reinstall manually."
+}
