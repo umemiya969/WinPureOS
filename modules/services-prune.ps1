@@ -1,12 +1,17 @@
-$services = @(
- "DiagTrack",
- "dmwappushservice",
- "WerSvc",
- "RetailDemo",
- "WMPNetworkSvc"
-)
+function Apply-ServicePolicy {
 
-foreach ($svc in $services) {
- Stop-Service $svc -Force -ErrorAction SilentlyContinue
- Set-Service $svc -StartupType Disabled -ErrorAction SilentlyContinue
+    Write-Host "[-] Pruning non-essential reporting services"
+
+    $services = @(
+        "WerSvc",      # Error reporting
+        "PcaSvc"       # Program compatibility telemetry
+    )
+
+    foreach ($svc in $services) {
+        $s = Get-Service $svc -ErrorAction SilentlyContinue
+        if ($s) {
+            Stop-Service $svc -Force -ErrorAction SilentlyContinue
+            Set-Service $svc -StartupType Disabled
+        }
+    }
 }

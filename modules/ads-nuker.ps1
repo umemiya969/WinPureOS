@@ -1,21 +1,21 @@
-# Disable ALL Windows ads & suggestions
+function Apply-MarketingPolicy {
 
-$cdm = "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"
+    Write-Host "[-] Removing ads & suggestions"
 
-$keys = @(
- "ContentDeliveryAllowed",
- "OemPreInstalledAppsEnabled",
- "PreInstalledAppsEnabled",
- "SilentInstalledAppsEnabled",
- "SystemPaneSuggestionsEnabled",
- "SubscribedContent-338388Enabled",
- "SubscribedContent-353694Enabled"
-)
+    $cdm = "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"
+    New-Item $cdm -Force | Out-Null
 
-foreach ($key in $keys) {
- Set-ItemProperty -Path $cdm -Name $key -Value 0 -Force
+    $keys = @(
+        "SubscribedContent-338388Enabled",
+        "SubscribedContent-353694Enabled",
+        "SystemPaneSuggestionsEnabled"
+    )
+
+    foreach ($k in $keys) {
+        Set-ItemProperty -Path $cdm -Name $k -Type DWord -Value 0
+    }
+
+    Set-ItemProperty `
+        -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo" `
+        -Name "DisabledByGroupPolicy" -Type DWord -Value 1 -Force
 }
-
-# Disable consumer features
-reg add "HKLM\Software\Policies\Microsoft\Windows\CloudContent" `
- /v DisableWindowsConsumerFeatures /t REG_DWORD /d 1 /f
