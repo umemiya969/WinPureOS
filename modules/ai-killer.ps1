@@ -1,21 +1,18 @@
-# Disable Windows Copilot
-reg add "HKLM\Software\Policies\Microsoft\Windows\WindowsCopilot" `
- /v TurnOffWindowsCopilot /t REG_DWORD /d 1 /f
+function Apply-AIPolicy {
 
-# Hide Copilot button
-reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" `
- /v ShowCopilotButton /t REG_DWORD /d 0 /f
+    Write-Host "[-] Killing AI / Copilot"
 
-# Disable Bing AI search
-reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Search" `
- /v BingSearchEnabled /t REG_DWORD /d 0 /f
+    New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsCopilot" -Force | Out-Null
+    Set-ItemProperty `
+        -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsCopilot" `
+        -Name "TurnOffWindowsCopilot" -Type DWord -Value 1
 
-reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Search" `
- /v CortanaConsent /t REG_DWORD /d 0 /f
+    New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Speech" -Force | Out-Null
+    Set-ItemProperty `
+        -Path "HKLM:\SOFTWARE\Policies\Microsoft\Speech" `
+        -Name "AllowSpeechRecognition" -Type DWord -Value 0
 
-# Disable online speech & typing
-reg add "HKCU\Software\Microsoft\InputPersonalization" `
- /v RestrictImplicitTextCollection /t REG_DWORD /d 1 /f
-
-reg add "HKCU\Software\Microsoft\InputPersonalization" `
- /v RestrictImplicitInkCollection /t REG_DWORD /d 1 /f
+    Set-ItemProperty `
+        -Path "HKCU:\Software\Microsoft\InputPersonalization" `
+        -Name "RestrictImplicitTextCollection" -Type DWord -Value 1 -Force
+}
