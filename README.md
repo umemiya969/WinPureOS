@@ -1,137 +1,191 @@
 # WinPureOS
 
-Make Windows a **Pure Operating System** — no ads, no AI push, minimal telemetry.
+**Make Windows a pure operating system — no ads, no AI, minimal telemetry.**
 
-> Windows as an OS, not a marketing platform.
+WinPureOS is a security‑ and privacy‑focused hardening project that strips Windows 11 down to what an operating system should be: a kernel, drivers, and a user interface — **not a marketing platform, not an AI client, not a data collection agent**.
+
+> This project is opinionated by design.
 
 ---
 
-## 🎯 Project Goals
+## 🧭 Project Philosophy
 
-* Disable Microsoft marketing & ads
-* Disable Copilot, AI hooks, cloud suggestions
-* Reduce telemetry to enterprise-minimal level
+Modern Windows blends OS functionality with:
+
+* advertising & persuasion layers
+* cloud‑first AI features
+* behavioral telemetry
+* consumer growth mechanisms
+
+WinPureOS exists to **systematically remove those layers** using documented, reversible, and auditable mechanisms.
+
+**What WinPureOS is:**
+
+* policy‑first (Group Policy & registry)
+* modular & auditable
+* reversible (restore mode)
+* designed for power users
+
+**What WinPureOS is NOT:**
+
+* a piracy or activation bypass tool
+* a binary patcher
+* a "one‑click magic optimizer"
+
+---
+
+## 🎯 Goals
+
+* Disable all Microsoft marketing & persuasion surfaces
+* Disable Copilot, AI hooks, and cloud cognitive features
+* Reduce telemetry to enterprise‑minimal level
+* Silence background network exfiltration
 * Preserve system stability & Windows Update
-* Reversible and transparent changes
 
 ---
 
-## 📂 Repository Structure
+## ❌ Non‑Goals (Important)
+
+WinPureOS does **not** attempt to:
+
+* achieve literal zero telemetry on Home/Pro editions
+* bypass DRM, licensing, or activation
+* break Windows security mechanisms
+
+If you need absolute zero telemetry:
+
+* Windows Enterprise LTSC
+* network‑level firewalls (Pi‑hole)
+* or a non‑Windows OS
+
+---
+
+## 🧱 Architecture Overview
 
 ```
 WinPureOS/
-├── scripts/
-│   ├── winpureos.ps1          # Main PURE mode script
-│   ├── restore-default.ps1    # Restore Microsoft defaults
-│   └── firewall-block.ps1     # Optional telemetry IP/domain block
-│
-├── profiles/
-│   ├── standard.json          # Safe privacy profile
-│   ├── strict.json            # Aggressive debloat
-│   └── paranoid.json          # Near-LTSC behavior
-│
-├── docs/
-│   ├── what-we-disable.md
-│   ├── limitations.md
-│   └── faq.md
-│
-├── LICENSE
+├── core/        # Entry points (pure, restore, verify)
+├── modules/     # Isolated hardening units
+├── profiles/    # Mode definitions (default: paranoid)
+├── docs/        # Threat model & limitations
 └── README.md
 ```
+
+### Single Entry Point
+
+Users apply WinPureOS **only** via:
+
+```powershell
+core/pure.ps1
+```
+
+Modules are internal and not intended to be run manually.
+
+---
+
+## 🔥 What WinPureOS Removes
+
+### Marketing & Ads
+
+* Start Menu promotions
+* Lock Screen ads
+* App & feature suggestions
+* Content Delivery Manager
+
+### AI & Cloud Intelligence
+
+* Windows Copilot
+* Bing AI search integration
+* Cortana remnants
+* Online speech & typing personalization
+
+### Telemetry & Profiling
+
+* Diagnostic tracking services
+* Advertising ID
+* App usage tracking
+* Automatic feedback uploads
+
+### Consumer Bloat
+
+* Xbox stack
+* Bing & news apps
+* Feedback Hub
+* Consumer media apps
+
+---
+
+## ⚠️ What Will Break
+
+WinPureOS is intentionally aggressive.
+
+| Feature               | Status   |
+| --------------------- | -------- |
+| Copilot               | Disabled |
+| Online search         | Disabled |
+| Voice typing          | Disabled |
+| Store recommendations | Disabled |
+| "Smart" suggestions   | Disabled |
+
+Windows becomes **less intelligent but more predictable**.
+
+---
+
+## 🔍 Transparency & Auditability
+
+* All changes are policy‑ or service‑based
+* No system binaries are modified
+* `core/verify.ps1` audits applied changes
+* `core/restore.ps1` reverts to Microsoft defaults
 
 ---
 
 ## 🚀 Quick Start
 
+> **Run as Administrator**
+
 ```powershell
 Set-ExecutionPolicy Bypass -Scope Process -Force
-./scripts/winpureos.ps1
+./core/pure.ps1
 ```
 
 Reboot after execution.
 
 ---
 
-## 🧠 What WinPureOS Disables
+## 🛡️ Threat Model (Summary)
 
-### Marketing & Ads
+WinPureOS defends against:
 
-* Start Menu ads
-* Lock Screen promotions
-* App suggestions
-* Content Delivery Manager
+* behavioral telemetry
+* cloud AI data ingestion
+* persuasion & nudging mechanisms
 
-### AI & Cloud
+It does **not** defend against:
 
-* Windows Copilot
-* Bing AI Search
-* Cortana remnants
-* Online personalization
+* kernel‑level backdoors
+* firmware‑level surveillance
+* third‑party application tracking
 
-### Telemetry
-
-* Diagnostic tracking
-* Advertising ID
-* App launch tracking
-* Feedback auto-upload
-
----
-
-## 🔄 Restore Mode
-
-```powershell
-./scripts/restore-default.ps1
-```
-
-Restores Microsoft default behavior.
-
----
-
-## ⚠️ Known Limitations
-
-* Not possible to reach true zero telemetry on Home/Pro
-* Some cloud features will stop working
-* Windows Store recommendations removed
-
-For full isolation consider:
-
-* Windows Enterprise LTSC
-* Network-level firewall (Pi-hole)
-
----
-
-## 🛡️ Security Philosophy
-
-* No binary patching
-* No system file deletion
-* Registry & policy based only
-* All changes documented
+See `docs/threat-model.md` for details.
 
 ---
 
 ## 📜 License
 
-MIT License — use, modify, fork freely.
+MIT License.
+
+Fork it. Modify it. Audit it.
 
 ---
 
-## 🙌 Contributing
-
-Pull requests welcome.
-Focus areas:
-
-* New profiles
-* Better rollback
-* GUI frontend
-* ISO automation
-
----
-
-## 🧩 Disclaimer
+## ⚖️ Disclaimer
 
 This project is not affiliated with Microsoft.
 Use at your own risk.
 
 ---
 
-**WinPureOS** — reclaim your operating system.
+**WinPureOS**
+
+Reclaim your operating system.
