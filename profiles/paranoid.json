@@ -1,0 +1,9 @@
+{
+  "mode": "paranoid",
+  "ai": "disabled",
+  "telemetry": "enterprise-minimal",
+  "ads": "zero",
+  "consumer_apps": "removed",
+  "services": "pruned",
+  "network": "silenced"
+}
